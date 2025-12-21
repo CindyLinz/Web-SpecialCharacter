@@ -172,9 +172,58 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+
+        .github-ribbon {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1000;
+            display: none;
+        }
+
+        .github-ribbon a {
+            display: block;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .github-ribbon a span {
+            position: absolute;
+            display: block;
+            width: 225px;
+            padding: 8px 0;
+            background: #722F37;
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transform: rotate(45deg);
+            top: 40px;
+            right: -55px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .github-ribbon a:hover span {
+            background: #8B3A42;
+        }
+
+        @media (min-width: 900px) {
+            .github-ribbon {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="github-ribbon">
+        <a href="https://github.com/CindyLinz/Web-SpecialCharacter" target="_blank">
+            <span>Fork me on GitHub</span>
+        </a>
+    </div>
+
     <div class="container">
         <input type="text" id="textInput" placeholder="點擊下方字元加入此處...">
 
