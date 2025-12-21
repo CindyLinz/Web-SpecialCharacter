@@ -439,7 +439,7 @@
             const end = input.selectionEnd;
             const text = input.value;
             input.value = text.slice(0, start) + char + text.slice(end);
-            input.focus();
+            //input.focus();
             input.setSelectionRange(start + char.length, start + char.length);
             navigator.clipboard.writeText(char).then(() => {
                 showToast('已複製單個字到剪貼簿！');
