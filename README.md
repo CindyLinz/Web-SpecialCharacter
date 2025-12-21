@@ -4,7 +4,7 @@ A web-based Unicode special character picker that lets users  browse, select, an
 
 [Give it a try](https://cindylinz.github.io/Web-SpecialCharacter)
 
---
+---
 
 找不到順手的 emoji 複製網頁，懶得找了，就寫一個來用… 順便把上標下標科學符號都放進去
 
