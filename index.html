@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特殊字元選擇器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #textInput {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #textInput:focus {
+            border-color: #007bff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-copy {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background: #0056b3;
+        }
+
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: #c82333;
+        }
+
+        .tabs-container {
+            margin-top: 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #e9ecef;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            background: #dee2e6;
+        }
+
+        .tab-btn.active {
+            background: white;
+            border-bottom-color: #007bff;
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 8px;
+        }
+
+        .char-btn {
+            padding: 12px;
+            font-size: 24px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .char-btn:hover {
+            background: #007bff;
+            color: white;
+            transform: scale(1.1);
+            border-color: #007bff;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="textInput" placeholder="點擊下方字元加入此處...">
+
+        <div class="button-group">
+            <button class="btn btn-copy" onclick="copyText()">複製到剪貼簿</button>
+            <button class="btn btn-clear" onclick="clearText()">清空</button>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="common">常用</button>
+                <button class="tab-btn" data-tab="emoji">表情</button>
+                <button class="tab-btn" data-tab="gesture">手勢</button>
+                <button class="tab-btn" data-tab="script">小標</button>
+                <button class="tab-btn" data-tab="arrow">箭頭</button>
+                <button class="tab-btn" data-tab="math">數學</button>
+                <button class="tab-btn" data-tab="nature">自然</button>
+                <button class="tab-btn" data-tab="animal">動物</button>
+                <button class="tab-btn" data-tab="plant">植物</button>
+                <button class="tab-btn" data-tab="combine">組合</button>
+            </div>
+
+            <div class="tab-content active" id="common">
+                <div class="char-grid">
+                    <!-- 常用符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="emoji">
+                <div class="char-grid">
+                    <!-- 表情符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="gesture">
+                <div class="char-grid">
+                    <!-- 手勢符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="script">
+                <div class="char-grid">
+                    <!-- 小標符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="math">
+                <div class="char-grid">
+                    <!-- 數學符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="nature">
+                <div class="char-grid">
+                    <!-- 自然符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="animal">
+                <div class="char-grid">
+                    <!-- 動物符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="plant">
+                <div class="char-grid">
+                    <!-- 植物符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="arrow">
+                <div class="char-grid">
+                    <!-- 箭頭符號 -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="combine">
+                <div class="char-grid">
+                    <!-- 組合字元 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">已複製到剪貼簿！</div>
+
+    <script>
+        // 字元資料
+        const characters = {
+            common: [],
+            emoji: [
+                '😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '😊',
+                '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😋', '😛', '😜',
+                '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐',
+                '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪',
+                '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶',
+                '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟',
+                '🌚', '🌝'
+            ],
+            gesture: [
+                '👍', '👎', '👌', '🤌', '🤏', '✌️', '🤞', '🤟', '🤘', '🤙',
+                '👈', '👉', '👆', '👇', '☝️', '👋', '🤚', '🖐️', '✋', '🖖',
+                '👏', '🙌', '👐', '🤲', '🤝', '🙏', '✍️', '💪', '🦾', '🖕',
+                '🫵', '🫱', '🫲', '🫳', '🫴', '🫰', '🫶', '👊', '✊', '🤛',
+                '🤜', '🫷', '🫸', '👋', '🤚', '🖐️', '✋', '🖖', '👌', '🤌'
+            ],
+            script: [
+                '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹',
+                '⁺', '⁻', '⁼', '⁽', '⁾', 'ⁿ', 'ⁱ',
+                '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉',
+                '₊', '₋', '₌', '₍', '₎', 'ₐ', 'ₑ', 'ₒ', 'ₓ', 'ₔ',
+                'ₕ', 'ₖ', 'ₗ', 'ₘ', 'ₙ', 'ₚ', 'ₛ', 'ₜ'
+            ],
+            math: [
+                '±', '×', '÷', '≠', '≈', '≡', '≤', '≥', '∞', '∝',
+                '√', '∛', '∜', '∑', '∏', '∫', '∬', '∭', '∮', '∯',
+                '∂', '∇', '∆', '∈', '∉', '∋', '∌', '⊂', '⊃', '⊆',
+                '⊇', '∪', '∩', '∅', '∀', '∃', '∄', '¬', '∧', '∨',
+                '⊕', '⊗', '⊥', '∥', '∠', '∟', '°', '′', '″', '‴',
+                'π', 'α', 'β', 'γ', 'δ', 'ε', 'θ', 'λ', 'μ', 'σ',
+                'φ', 'ω', 'Σ', 'Π', 'Ω', 'Δ', 'Φ', 'Ψ', 'Γ', 'Λ',
+                '½', '⅓', '⅔', '¼', '¾', '⅕', '⅖', '⅗', '⅘', '⅙',
+                '⅚', '⅛', '⅜', '⅝', '⅞', '⅐', '⅑', '⅒',
+                '→', '←', '↔', '⇌', '⇋', '∴', '∵', '≡', '≈', '∝',
+                'ℏ', 'ℓ', '℧', 'Å', '℃', '℉'
+            ],
+            nature: [
+                '🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘', '🌙',
+                '🌚', '🌛', '🌜', '🌝', '🌞', '☀️', '⭐', '🌟', '✨',
+                '🌈', '☁️', '⛅', '🌤️', '🌥️', '🌦️', '🌧️', '🌨️', '🌩️', '🌪️',
+                '❄️', '💧', '💦', '🌊', '🔥', '⚡', '☔', '🌬️',
+                '⚗️', '🧪', '🧫', '🧬', '⚛️', '🔬', '🔭', '💊', '💉', '🩸',
+                '🩹', '🩺', '⚕️', '🔋', '🔌', '💡', '🧲', '☢️', '☣️', '⚠️'
+            ],
+            animal: [
+                '🐛', '🦋', '🐌', '🐝', '🐞', '🦗', '🪲', '🪳', '🦟', '🪰',
+                '🐜', '🦂', '🕷️', '🕸️', '🪱', '🦠',
+                '🐶', '🐕', '🐩', '🐺', '🦊', '🦝', '🐱', '🐈', '🦁', '🐯',
+                '🐅', '🐆', '🐴', '🐎', '🦄', '🦓', '🐮', '🐂', '🐃', '🐄',
+                '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫', '🦙',
+                '🦒', '🐘', '🦣', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰',
+                '🐇', '🐿️', '🦫', '🦔', '🦇', '🐻', '🐨', '🐼', '🦥', '🦦',
+                '🦨', '🦘', '🦡',
+                '🐔', '🐓', '🐣', '🐤', '🐥', '🐦', '🐧', '🕊️', '🦅', '🦆',
+                '🦢', '🦉', '🦤', '🪶', '🦩', '🦚', '🦜', '🐦‍⬛',
+                '🐳', '🐋', '🐬', '🦭', '🐟', '🐠', '🐡', '🦈', '🐙', '🐚',
+                '🪸', '🦀', '🦞', '🦐', '🦑', '🪼',
+                '🐊', '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖'
+            ],
+            plant: [
+                '🌸', '🌺', '🌻', '🌼', '🌷', '🌹', '🥀', '💐', '💮', '🏵️',
+                '🌱', '🌲', '🌳', '🌴', '🌵', '🎋', '🎍', '🪴', '🎄', '🌾',
+                '🪻', '🪷', '🌿', '☘️', '🍀', '🍃', '🍂', '🍁', '🎑',
+                '🍎', '🍏', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🫐',
+                '🍈', '🍒', '🍑', '🥭', '🍍', '🥥', '🥝', '🍅', '🫒',
+                '🥑', '🍆', '🥔', '🥕', '🌽', '🌶️', '🫑', '🥒', '🥬', '🥦',
+                '🧄', '🧅', '🥜', '🫘', '🌰'
+            ],
+            arrow: [
+                '←', '↑', '→', '↓', '↔', '↕', '↖', '↗', '↘', '↙',
+                '⇐', '⇑', '⇒', '⇓', '⇔', '⇕', '⇖', '⇗', '⇘', '⇙',
+                '↚', '↛', '↮', '⇍', '⇏', '⇎',
+                '↞', '↟', '↠', '↡', '↢', '↣', '↤', '↥', '↦', '↧',
+                '↩', '↪', '↫', '↬', '↰', '↱', '↲', '↳', '↴', '↵',
+                '↶', '↷', '⟲', '⟳', '↺', '↻',
+                '⇠', '⇡', '⇢', '⇣', '⇤', '⇥', '⇦', '⇧', '⇨', '⇩', '⇪',
+                '⇌', '⇋', '⟵', '⟶', '⟷', '⟸', '⟹', '⟺',
+                '➔', '➘', '➙', '➚', '➛', '➜', '➝', '➞', '➟', '➠',
+                '➡', '➢', '➣', '➤', '➥', '➦', '➧', '➨', '➩', '➪',
+                '➫', '➬', '➭', '➮', '➯', '➰', '➱', '⤴', '⤵',
+                '▲', '▶', '▼', '◀', '△', '▷', '▽', '◁'
+            ],
+            combine: [
+                '\u0308', '\u0302', '\u0303', '\u0304', '\u0305', '\u0306', '\u0307',
+                '\u030A', '\u030B', '\u030C', '\u030D', '\u030E', '\u030F',
+                '\u0336', '\u0332', '\u0333', '\u0334', '\u0335',
+                '\u0337', '\u0338', '\u035C', '\u0361', '\u0362',
+                '\u0300', '\u0301', '\u0309', '\u0323', '\u0324', '\u0325',
+                '\uFE0E', '\uFE0F'
+            ]
+        };
+
+        function updatePane(category) {
+            const grid = document.querySelector(`#${category} .char-grid`);
+            grid.innerHTML = '';
+            characters[category].forEach(char => {
+                const btn = document.createElement('button');
+                btn.className = 'char-btn';
+                if( category==='combine' )
+                    btn.textContent = 'a' + char;
+                else
+                    btn.textContent = char;
+                btn.onclick = () => addChar(char);
+                grid.appendChild(btn);
+            });
+        }
+
+        // 初始化字元按鈕
+        function initCharButtons() {
+            // 檢查 session storage 的 frequently 變數
+            const frequently = sessionStorage.getItem('frequently');
+            try {
+                const parsed = JSON.parse(frequently);
+                if (Array.isArray(parsed)) {
+                    characters.common = parsed;
+                } else {
+                    throw new Error('not array');
+                }
+            } catch (e) {
+                // 串接 gesture, script, math 的內容
+                characters.common = [
+                    ...characters.emoji,
+                    ...characters.gesture,
+                    ...characters.script,
+                    ...characters.math
+                ];
+            }
+
+            for( let category in characters )
+                updatePane(category);
+        }
+
+        // 加入字元到輸入框
+        function addChar(char) {
+            const input = document.getElementById('textInput');
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const text = input.value;
+            input.value = text.slice(0, start) + char + text.slice(end);
+            input.focus();
+            input.setSelectionRange(start + char.length, start + char.length);
+            navigator.clipboard.writeText(char).then(() => {
+                showToast('已複製單個字到剪貼簿！');
+            });
+
+            // 更新 frequently
+            const index = characters.common.indexOf(char);
+            if (index !== -1) {
+                // 已存在，移到最前面
+                characters.common.splice(index, 1);
+            }
+            characters.common.unshift(char);
+            updatePane('common');
+
+            // 存入 session storage
+            sessionStorage.setItem('frequently', JSON.stringify(characters.common));
+        }
+
+        // 複製文字
+        function copyText() {
+            const input = document.getElementById('textInput');
+            if (input.value) {
+                navigator.clipboard.writeText(input.value).then(() => {
+                    showToast('已複製整串到剪貼簿！');
+                });
+            } else {
+                showToast('輸入框是空的！');
+            }
+        }
+
+        // 清空文字
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('textInput').focus();
+        }
+
+        // 顯示提示訊息
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Tab 切換
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有 active
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                // 加入 active
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        // 初始化
+        initCharButtons();
+    </script>
+</body>
+</html>
