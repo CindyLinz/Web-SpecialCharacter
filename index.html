@@ -459,7 +459,7 @@
         // 初始化字元按鈕
         function initCharButtons() {
             // 檢查 session storage 的 frequently 變數
-            const frequently = sessionStorage.getItem('frequently');
+            const frequently = localStorage.getItem('frequently');
             try {
                 const parsed = JSON.parse(frequently);
                 if (Array.isArray(parsed)) {
@@ -504,7 +504,7 @@
             updatePane('common');
 
             // 存入 session storage
-            sessionStorage.setItem('frequently', JSON.stringify(characters.common));
+            localStorage.setItem('frequently', JSON.stringify(characters.common));
         }
 
         // 複製文字
