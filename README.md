@@ -12,4 +12,4 @@ A web-based Unicode special character picker that lets users  browse, select, an
 
 ![畫面示意](preview.png)
 
-在 [](browser-addon/) 目錄裡有包裝成 browser extension 的外殼
+在 [browser-addon/](browser-addon/) 目錄裡有包裝成 browser extension 的外殼
