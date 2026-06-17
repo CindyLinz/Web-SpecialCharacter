@@ -11,3 +11,5 @@ A web-based Unicode special character picker that lets users  browse, select, an
 點單個符號的時候會複製單個符號，也會加到文字框裡，如果要一次貼一串可以再複製來用…
 
 ![畫面示意](preview.png)
+
+在 [](browser-addon/) 目錄裡有包裝成 browser extension 的外殼
