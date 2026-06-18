@@ -14,7 +14,7 @@ rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
 # Copy common files
-cp manifest.json popup.html popup.css icon128.png "$BUILD_DIR/"
+cp manifest.json index.html popup.js icon128.png "$BUILD_DIR/"
 
 if [ "$TARGET" == "firefox" ]; then
   echo "Adding Firefox specific settings..."
