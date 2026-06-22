@@ -24,7 +24,8 @@ with open('$BUILD_DIR/manifest.json', 'r') as f:
     data = json.load(f)
 data['browser_specific_settings'] = {
     'gecko': {
-        'id': 'web-special-character@cindylinz.github.io'
+        'id': 'web-special-character@cindylinz.github.io',
+        'data_collection_permissions': {'required': ['none']}
     }
 }
 with open('$BUILD_DIR/manifest.json', 'w') as f:
